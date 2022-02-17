@@ -1,13 +1,15 @@
-# empty-scaffold
-react + webpack + typescript 搭建自己的脚手架
-```markdown
-|-- empty-scaffold
+|-- undefined
     |-- babel.config.js
     |-- directoryList.md
     |-- package-lock.json
     |-- package.json
     |-- postcss.config.js
     |-- tsconfig.json
+    |-- .idea
+    |   |-- .gitignore
+    |   |-- empty-scaffold.iml
+    |   |-- modules.xml
+    |   |-- workspace.xml
     |-- dist
     |   |-- index.html
     |   |-- main.bundle.js
@@ -23,4 +25,3 @@ react + webpack + typescript 搭建自己的脚手架
         |-- webpack.base.config.js
         |-- webpack.dev.config.js
         |-- webpack.prod.config.js
-```
