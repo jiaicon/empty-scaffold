@@ -1,0 +1,5 @@
+.dragItem {
+    display: inline-block;
+    background-color: black;
+    cursor: move;
+}

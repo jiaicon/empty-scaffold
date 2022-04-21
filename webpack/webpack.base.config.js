@@ -87,5 +87,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      "@": path.join(__dirname, "../src")
+    }
   }
 }
