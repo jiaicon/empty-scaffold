@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander')
+const { add } = require('./../src/command');
 
 program.usage('<command>')
 
@@ -8,10 +9,10 @@ const packageInfo = require('../package.json');
 program.version(packageInfo.version)
 
 program
-  .command('add')
+  .command('add [projectName]')
   .description('add a new template')
-  .action(() => {
-    require('./../src/command/add')
+  .action((projectName) => {
+    add(projectName);
   })
 
 program
