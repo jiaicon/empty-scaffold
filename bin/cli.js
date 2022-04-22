@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander')
-const { add } = require('./../src/command');
+const { init } = require('./../src/command');
 
 program.usage('<command>')
 
@@ -9,15 +9,15 @@ const packageInfo = require('../package.json');
 program.version(packageInfo.version)
 
 program
-  .command('add [projectName]')
-  .description('add a new template')
+  .command('init [projectName]')
+  .description('init a new project')
   .action((projectName) => {
-    add(projectName);
+    init(projectName);
   })
 
 program
   .command('delete')
-  .description('delete a template')
+  .description('delete a project')
   .action(() => {
     require('../commands/delete')
   })
@@ -27,13 +27,6 @@ program
   .description('List the templateList')
   .action(() => {
     require('../commands/list')
-  })
-
-program
-  .command('init')
-  .description('init a project')
-  .action(() => {
-    require('../commands/init')
   })
 
 program.parse(process.argv)

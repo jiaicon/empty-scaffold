@@ -1,8 +1,6 @@
 
 const figlet = require('figlet')
 const chalk = require('chalk')
-const fs = require('fs')
-const path = require('path')
 const inquirer = require('inquirer')
 const ora = require('ora')
 const download = require('download-git-repo')
@@ -21,9 +19,9 @@ const scaffolds = [
     url: 'github:'
   },
   {
-    name: 'Vant + React',
+    name: 'Vant + Create React App',
     title: 'Vant + React',
-    url: ''
+    url: 'github:3lang3/react-vant-template'
   }
 ]
 
@@ -54,14 +52,14 @@ const add = function(projectName) {
             if (err) {
               console.log(chalk.red(err))
             } else {
-              console.log('\r\n' + figlet.textSync('icon', {
+              console.log('\r\n' + figlet.textSync(scaffold.title, {
                 font: 'Ghost',
                 horizontalLayout: 'default',
                 verticalLayout: 'default',
                 width: 80,
                 whitespaceBreak: true,
               }))
-              console.log(`\r\nRun ${chalk.blue(scaffold + ' <command> --help')} show details\r\n`)
+              console.log(`\r\nRun ${chalk.blue(scaffold.name + ' <command> --help')} show details\r\n`)
             }
             spinner.stop();
           })

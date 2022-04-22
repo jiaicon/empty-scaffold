@@ -1,5 +1,5 @@
-const add = require('./command/add')
+const init = require('./command/init')
 
 module.exports = {
-  add,
+  init,
 }

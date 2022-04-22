@@ -4,7 +4,8 @@
   "description": "脚手架",
   "main": "index.js",
   "bin": {
-    "icon-cli": "./bin/cli.js"
+    "icon-cli": "./bin/cli.js",
+    "icon-cli-dev": "./bin/cli.js"
   },
   "scripts": {},
   "author": "Icon",
