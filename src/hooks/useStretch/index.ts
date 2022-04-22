@@ -72,9 +72,10 @@ const useStretch = (target?: Target, config: IDragConfig ={}) => {
     }
 
     el.addEventListener('mousedown', listenerMouseDown);
-    el.addEventListener('mouseup', listenerMouseUp);
+    document.addEventListener('mouseup', listenerMouseUp);
     return () => {
       el.removeEventListener('mousedown', listenerMouseDown);
+      document.removeEventListener('mouseup', listenerMouseUp);
     };
   }, [target, shouldUpdatePersist]);
 
