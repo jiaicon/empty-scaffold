@@ -9,6 +9,23 @@ const download = require('download-git-repo')
 
 const spinner = ora();
 
+const scaffolds = [
+  {
+    name: 'empty-scaffold',
+    title: 'Icon',
+    url: 'github:jiaicon/empty-scaffold'
+  },
+  {
+    name: 'Vant + Vite',
+    title: 'Vant + Vite',
+    url: 'github:'
+  },
+  {
+    name: 'Vant + React',
+    title: 'Vant + React',
+    url: ''
+  }
+]
 
 const add = function(projectName) {
   inquirer.prompt([
@@ -16,22 +33,24 @@ const add = function(projectName) {
       type: 'list',
       name: 'type',
       message: '选择要安装的包',
-      choices: ['empty-scaffold', '测试项1', '测试项2'],
-      default: 'empty-scaffold',
+      choices: scaffolds.map(item => item.name),
+      default: scaffolds[0].name,
     }
   ]).then(({ type }) => {
-    if (type === 'empty-scaffold') {
+    const scaffold = scaffolds.find(item => item.name === type)
+    if (scaffold)
+    if (scaffold !== -1) {
       inquirer.prompt([
         {
           type: 'confirm',
           name: 'confirm',
-          message: `确定要安装${type}吗？`,
+          message: `确定要安装${scaffold.name}吗？`,
           default: true,
         }
       ]).then(({ confirm }) => {
         if (confirm) {
           spinner.start();
-          download('github:jiaicon/empty-scaffold', projectName, function (err) {
+          download(scaffold.url, projectName, function (err) {
             if (err) {
               console.log(chalk.red(err))
             } else {
@@ -42,7 +61,7 @@ const add = function(projectName) {
                 width: 80,
                 whitespaceBreak: true,
               }))
-              console.log(`\r\nRun ${chalk.blue('icon-cli <command> --help')} show details\r\n`)
+              console.log(`\r\nRun ${chalk.blue(scaffold + ' <command> --help')} show details\r\n`)
             }
             spinner.stop();
           })
@@ -50,7 +69,6 @@ const add = function(projectName) {
           console.log(`\r\n${chalk.red('您取消了安装')}\r\n`)
         }
       })
-      
     } else {
       console.log('测试项而已0.0')
     }
