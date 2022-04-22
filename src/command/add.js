@@ -31,7 +31,7 @@ const add = function(projectName) {
       ]).then(({ confirm }) => {
         if (confirm) {
           spinner.start();
-          download('github:jiaicon/empty-scaffold', path.join(__dirname, projectName), function (err) {
+          download('github:jiaicon/empty-scaffold', projectName, function (err) {
             if (err) {
               console.log(chalk.red(err))
             } else {
