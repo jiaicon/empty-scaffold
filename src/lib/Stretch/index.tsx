@@ -81,7 +81,7 @@ const Index: React.FC<IProps> = (props) => {
       width: bWidth,
       height: bHeight,
     };
-    const newState = { ...boxSize, ...state };
+    const newState ={ x: state.left, y: state.top, w: state.width, h: state.height };
     
     if (dis?.type === 'mousedown') {
       onResizeStart?.(newState)
@@ -90,8 +90,8 @@ const Index: React.FC<IProps> = (props) => {
     } else if(dis?.type === 'mouseup') {
       onResizeEnd?.(newState)
     }
-    onChange?.({ x: newState.left, y: newState.top, w: newState.width, h: newState.height })
-    setBoxSize(newState);
+    onChange?.(newState)
+    setBoxSize({ ...boxSize, ...state });
   }
 
   const BtnIcons = (

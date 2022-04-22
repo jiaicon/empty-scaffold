@@ -31,10 +31,12 @@ const Index: React.FC<IProps> = (props) => {
     y: number;
   }) => {
     if (!active) return;
+    const newActive = { ...active, ...s };
+    setActive(newActive)
     setLayouts((prevState) => {
       const newLayouts = prevState.map(item => {
         if (item.i === active.i) {
-          return { ...active, ...s }
+          return { ...newActive }
         }
         return item;
       })
@@ -59,15 +61,14 @@ const Index: React.FC<IProps> = (props) => {
 
   const onDrag = (layout: DragItemProps, d: Distance) => {
     setActive({ ...layout, ...d })
-    console.log({ ...layout, ...d })
-    // setLayouts((prevState) => {
-    //   return prevState.map(item => {
-    //     if (item.i === layout.i) {
-    //       return { ...item, ...d }
-    //     }
-    //     return item;
-    //   })
-    // })
+    setLayouts((prevState) => {
+      return prevState.map(item => {
+        if (item.i === layout.i) {
+          return { ...item, ...d }
+        }
+        return item;
+      })
+    })
   }
 
   const dragDom = useMemo(() => {
