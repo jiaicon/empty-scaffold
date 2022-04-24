@@ -1,0 +1,102 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.node {
+  background: #292929;
+  position: absolute;
+  border: 1px solid rgb(26, 25, 43);
+  border-radius: 4px;
+  box-shadow: rgb(26 25 43) 0px 0px 0px 0.25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: move;
+  user-select: none;
+  overflow: hidden;
+}
+
+.line {
+  position: absolute;
+}
+
+.dragIcon {
+  position: absolute;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAF9JREFUWEft17ERwCAQA0HUGa6M1tzZM++BwJDrkyMhRGx2asVHxe83+4CI6PlpSe93uwXWgCHpYQACCCCAAAIIIIAAAggg8BPYxWIKlTtMdrGYBmSa1ZTR+UF7G54DJs4YcCGucB06AAAAAElFTkSuQmCC) no-repeat;
+  background-size: cover;
+  pointer-events: visible;
+}
+
+.dragIcon.dragIcon-n {
+  top: 10px;
+  left: 50%;
+  margin-left: -9px;
+  cursor: n-resize;
+  transform: rotate(-135deg);
+}
+.dragIcon.dragIcon-ne {
+  top: 10px;
+  right: 10px;
+  cursor: ne-resize;
+  transform: rotate(-90deg);
+}
+.dragIcon.dragIcon-e {
+  right: 10px;
+  top: 50%;
+  margin-top: -9px;
+  cursor: e-resize;
+  transform: rotate(-45deg);
+}
+.dragIcon.dragIcon-se {
+  bottom: 10px;
+  right: 10px;
+  cursor: se-resize;
+  transform: rotate(0deg);
+}
+.dragIcon.dragIcon-s {
+  bottom: 10px;
+  left: 50%;
+  margin-left: -9px;
+  cursor: s-resize;
+  transform: rotate(45deg);
+}
+.dragIcon.dragIcon-sw {
+  bottom: 10px;
+  left: 10px;
+  cursor: sw-resize;
+  transform: rotate(90deg);
+}
+.dragIcon.dragIcon-w {
+  left: 10px;
+  top: 50%;
+  margin-top: -9px;
+  cursor: w-resize;
+  transform: rotate(135deg);
+}
+.dragIcon.dragIcon-nw {
+  top: 10px;
+  left: 10px;
+  cursor: nw-resize;
+  transform: rotate(180deg);
+}
