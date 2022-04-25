@@ -29,7 +29,8 @@ export default function Line({ nodes, current, scale }: Props) {
               top: line.top * scale,
               width: 1,
               height: line.size * scale,
-              borderLeft: "1px dashed red"
+              borderLeft: "1px dashed red",
+              pointerEvents: 'none',
             }}
           ></div>
         ) : (
@@ -41,7 +42,8 @@ export default function Line({ nodes, current, scale }: Props) {
               top: line.top * scale,
               height: 1,
               width: line.size * scale,
-              borderTop: "1px dashed red"
+              borderTop: "1px dashed red",
+              pointerEvents: 'none',
             }}
           ></div>
         );

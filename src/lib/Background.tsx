@@ -11,8 +11,9 @@ export default function Background() {
         height="15"
         patternUnits="userSpaceOnUse"
       >
-        <circle cx="0.4" cy="0.4" r="0.4" fill="#81818a"></circle>
+        <circle cx="0.4" cy="1" r="1" fill="#81818a"></circle>
       </pattern>
+      <rect x="0" y="0" width="100%" height="100%" fill="#000"></rect>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#bg)"></rect>
     </svg>
   );

@@ -15,11 +15,7 @@
 }
 
 .node {
-  background: #292929;
   position: absolute;
-  border: 1px solid rgb(26, 25, 43);
-  border-radius: 4px;
-  box-shadow: rgb(26 25 43) 0px 0px 0px 0.25px;
   display: flex;
   align-items: center;
   justify-content: center;

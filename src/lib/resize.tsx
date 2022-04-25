@@ -1,20 +1,22 @@
-import React, { Fragment } from 'react';
-import DragCore from './core';
+import React from 'react';
 import { Widget } from './typing';
 import { RefLine } from "refline.js";
 import { listen } from "dom-helpers";
 
-const direction = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
+// const handle = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
+export type Handle = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 interface IProps {
   node: Widget;
   nodes: Widget[];
   scale: number;
+  distance: number;
+  handle?: Handle[];
   onResizeStart?: (node: Widget, e: React.MouseEvent) => void;
   onResize?: (node: Widget, e: MouseEvent) => void;
   onResizeEnd?: (node: Widget, e: MouseEvent) => void;
 }
 const Index: React.FC<IProps> = (props) => {
-  const { node, nodes, scale, onResizeStart, onResize, onResizeEnd } = props;
+  const { node, nodes, scale, handle=['ne', 'se', 'sw', 'nw'], distance, onResizeStart, onResize, onResizeEnd } = props;
 
   const handleNodeMouseDown = (dir: string, e: React.MouseEvent) => {
     const refline = new RefLine({
@@ -25,12 +27,11 @@ const Index: React.FC<IProps> = (props) => {
       current: node,
       pageX: e.pageX,
       pageY: e.pageY,
-      distance: 1,
+      distance,
       scale,
     });
 
     onResizeStart?.(node, e)
-
     const un1 = listen(window as any, "mousemove", (e: MouseEvent) => {
       // 吸附计算
       const { delta } = updater({
@@ -38,38 +39,29 @@ const Index: React.FC<IProps> = (props) => {
         pageY: e.pageY
       });
 
-      let width = node.width;
-      let height = node.height;
-      let left = node.left;
-      let top = node.top;
-
-
-      console.log(dir, delta)
       if (dir.indexOf('e') !== -1) {
-        width += delta.left;
+        node.width += delta.left;
       }
       if (dir.indexOf('w') !== -1) {
-        width -= delta.left;
-        left += delta.left;
+        node.width -= delta.left;
+        node.left += delta.left;
       }
       if (dir.indexOf('n') !== -1) {
-        height -= delta.top;
-        top += delta.top;
+        node.height -= delta.top;
+        node.top += delta.top;
       }
       if (dir.indexOf('s') !== -1) {
-        height += delta.top;
+        node.height += delta.top;
       }
-
-      // 增加偏移量，得到最终拖拽坐标
-      node.width += delta.left;
-      node.height += delta.top;
+      if (node.width <= 0) {
+        node.width = 0
+      }
+      if (node.height <= 0) {
+        node.height = 0
+      }
 
       onResize?.({
         ...node,
-        width,
-        height,
-        left,
-        top
       }, e)
     });
     const un2 = listen(window as any, "mouseup", (e: MouseEvent) => {
@@ -81,6 +73,7 @@ const Index: React.FC<IProps> = (props) => {
 
   return (
     <div
+      className='resize'
       style={{
         position: 'absolute',
         transform: `rotate(${node.rotate || 0}deg)`,
@@ -92,7 +85,7 @@ const Index: React.FC<IProps> = (props) => {
       }}
     >
       {
-        direction.map(item => (
+        handle.map(item => (
           <div
             key={item}
             className={`dragIcon dragIcon-${item}`}

@@ -1,4 +1,5 @@
 import type { AdsorbLine } from 'refline.js';
+import { Handle } from './resize';
 
 export interface Widget {
   key: string | number;
@@ -13,6 +14,8 @@ export interface Widget {
 export interface DragGrid {
   scale?: number;
   nodes: Widget[];
+  distance?: number; // 最小变化距离，默认4
+  handle?: Handle[]; // 拖拽的方向，默认['ne', 'se', 'sw', 'nw']
   onDragStart?: (node: Widget[]) => void;
   onDrag?: (node: Widget[]) => void;
   onDragEnd?: (node: Widget[]) => void;

@@ -4,13 +4,11 @@ import { RefLine } from "refline.js";
 import { listen } from "dom-helpers";
 import { Widget } from './typing';
 
-// 最大吸附距离
-const distance = 4;
-
 interface IProps {
   node: Widget;
   nodes: Widget[];
   scale: number;
+  distance: number,
   children?: React.ReactChild;
   className?: string;
   onDragStart?: (node: Widget, e: React.MouseEvent) => void;
@@ -19,7 +17,7 @@ interface IProps {
 }
 
 const Index: React.FC<IProps> = (props) => {
-  const { scale = 1, node, nodes, children, className, onDragStart, onDrag, onDragEnd } = props;
+  const { scale = 1, distance, node, nodes, children, className, onDragStart, onDrag, onDragEnd } = props;
 
   const handleNodeMouseDown = (key: string | number, e: React.MouseEvent) => {
     const refline = new RefLine({

@@ -1,96 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Background from "./Background";
-import { find } from "lodash";
-import { RefLine, AdsorbLine } from "refline.js";
-import { listen } from "dom-helpers";
+import { cloneDeep } from "lodash";
+import { AdsorbLine } from "refline.js";
 import DragCore from './core';
 import ResizeCore from './resize';
 import { Widget, DragGrid } from './typing';
 import Line from "./Line";
 import "./styles.css";
 
-// 最大吸附距离
-const distance = 4;
-
 const adsorbLines: AdsorbLine[] = [
 
 ];
 
 const Index: React.FC<DragGrid> = (props) => {
-  const { scale = 1, onDragStart, onDrag, onDragEnd } = props;
+  const { scale = 1, distance=4, handle, onDragStart, onDrag, onDragEnd } = props;
   const [current, setCurrent] = useState<Widget | null>(null);
-  const [nodes, setNodes] = useState<Widget[]>([
-    {
-      key: "node1",
-      left: 100,
-      top: 280,
-      width: 158,
-      height: 65,
-      rotate: 0
-    },
-    {
-      key: "node2",
-      left: 200,
-      top: 200,
-      width: 158,
-      height: 65
-    },
-    {
-      key: "node3",
-      left: 300,
-      top: 80,
-      width: 150,
-      height: 65
-    },
-    {
-      key: "node4",
-      left: 50,
-      top: 100,
-      width: 150,
-      height: 65
-    }
-  ]);
-
-  const handleNodeMouseDown = (key: string | number, e: React.MouseEvent) => {
-    const node = find(nodes, {
-      key
-    }) as any;
-
-    const refline = new RefLine({
-      rects: nodes,
-      adsorbVLines: adsorbLines,
-      adsorbHLines: adsorbLines
-    });
-
-    const updater = refline.adsorbCreator({
-      current: node,
-      pageX: e.pageX,
-      pageY: e.pageY,
-      distance,
-      scale,
-    });
-
-    const un1 = listen(window as any, "mousemove", (e) => {
-      // 吸附计算
-      const { delta } = updater({
-        pageX: e.pageX,
-        pageY: e.pageY
-      });
-
-      // 增加偏移量，得到最终拖拽坐标
-      node.left += delta.left;
-      node.top += delta.top;
-
-      setCurrent(node);
-      setNodes([...nodes])
-    });
-    const un2 = listen(window as any, "mouseup", () => {
-      un1();
-      un2();
-
-      setCurrent(null)
-    });
-  }
+  const [nodes, setNodes] = useState<Widget[]>([]);
 
   const _onDragStart = (node: Widget, e: React.MouseEvent) => {
     setCurrent(node);
@@ -106,18 +31,32 @@ const Index: React.FC<DragGrid> = (props) => {
       return n;
     })
     setNodes(_nodes);
+    setCurrent(node);
     onDrag?.(_nodes);
   }
 
   const _onDragEnd = (node: Widget, e: MouseEvent) => {
     // setCurrent(null);
-    // onDragEnd?.(nodes);
+    onDragEnd?.(nodes);
   }
 
   useEffect(() => {
-    // setNodes(props.nodes || []);
+    setNodes(props.nodes || []);
   }, [props.nodes])
-
+  const resizeDom = useMemo(() => {
+    return current ? (
+      <ResizeCore
+        node={current}
+        scale={scale}
+        distance={distance}
+        nodes={nodes}
+        handle={handle}
+        onResizeStart={_onDragStart}
+        onResize={_onDrag}
+        onResizeEnd={_onDragEnd}
+      />
+    ) : null
+  }, [cloneDeep(current)])
   return (
     <div className="container">
       <Background />
@@ -171,6 +110,7 @@ const Index: React.FC<DragGrid> = (props) => {
             <DragCore
               node={node}
               scale={scale}
+              distance={distance}
               nodes={nodes}
               key={node.key}
               onDragStart={_onDragStart}
@@ -180,19 +120,8 @@ const Index: React.FC<DragGrid> = (props) => {
           )
         })}
       </div>
-      <div className="resize">
-        {
-          current ? (
-            <ResizeCore
-              node={current}
-              scale={scale}
-              nodes={nodes}
-              onResizeStart={_onDragStart}
-              onResize={_onDrag}
-              onResizeEnd={_onDragEnd}
-            />
-          ) : null
-        }
+      <div className="resize" style={{ pointerEvents: 'none' }}>
+        {resizeDom}
       </div>
       {/* 显示参考线 */}
       <Line nodes={nodes} scale={scale} current={current as any} />
