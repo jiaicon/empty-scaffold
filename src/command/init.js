@@ -19,9 +19,9 @@ const scaffolds = [
     url: 'github:'
   },
   {
-    name: 'Vant + Create React App',
-    title: 'Vant + React',
-    url: 'github:3lang3/react-vant-template'
+    name: 'Vite + React',
+    title: 'Vite + React',
+    url: 'github:jiaicon/empty-scaffold#vite-react'
   }
 ]
 
@@ -48,6 +48,7 @@ const add = function(projectName) {
       ]).then(({ confirm }) => {
         if (confirm) {
           spinner.start();
+          console.log(scaffold.url)
           download(scaffold.url, projectName, function (err) {
             if (err) {
               console.log(chalk.red(err))
@@ -56,7 +57,6 @@ const add = function(projectName) {
                 font: 'Ghost',
                 horizontalLayout: 'default',
                 verticalLayout: 'default',
-                width: 80,
                 whitespaceBreak: true,
               }))
               console.log(`\r\nRun ${chalk.blue(scaffold.name + ' <command> --help')} show details\r\n`)
